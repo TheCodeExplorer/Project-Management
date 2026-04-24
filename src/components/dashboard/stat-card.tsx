@@ -26,8 +26,8 @@ export function StatCard({ label, value, icon: Icon, trend }: StatCardProps) {
           )}
         </div>
         <div>
-          <h3 className="text-2xl font-bold text-gray-900">{value}</h3>
-          <p className="text-sm text-gray-500 font-medium">{label}</p>
+          <h3 className="text-2xl font-bold text-foreground">{value}</h3>
+          <p className="text-sm text-muted-foreground font-medium">{label}</p>
         </div>
       </CardContent>
     </Card>

@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useSidebarStore } from "@/lib/store/sidebar-store";
+import { useSearchStore } from "@/lib/store/search-store";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import {
@@ -15,10 +16,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useUser, SignOutButton } from "@clerk/nextjs";
+import Link from "next/link";
 
 export function Topbar() {
   const { toggle } = useSidebarStore();
+  const { query, setQuery } = useSearchStore();
   const { theme, setTheme } = useTheme();
+  const { user, isLoaded } = useUser();
   const [mounted, setMounted] = useState(false);
 
   // Avoid hydration mismatch
@@ -40,7 +45,9 @@ export function Topbar() {
         <div className="relative w-full max-w-96 hidden md:block">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
           <Input 
-            placeholder="Search... (⌘ + K)" 
+            placeholder="Search projects and tasks..." 
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
             className="pl-10 bg-gray-50 border-none focus-visible:ring-indigo-400 rounded-xl dark:bg-gray-900"
           />
         </div>
@@ -69,29 +76,33 @@ export function Topbar() {
         <DropdownMenu>
           <DropdownMenuTrigger className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full overflow-hidden border-2 border-transparent hover:border-indigo-100 transition-all outline-none">
             <Avatar size="lg">
-              <AvatarImage src="" alt="User" />
+              <AvatarImage src={user?.imageUrl} alt={user?.fullName || "User"} />
               <AvatarFallback className="bg-gradient-to-br from-indigo-500 to-blue-500 text-white text-xs font-bold">
-                JD
+                {user?.firstName?.charAt(0) || "U"}{user?.lastName?.charAt(0) || ""}
               </AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56 rounded-xl" align="end">
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">John Doe</p>
+                <p className="text-sm font-medium leading-none text-foreground">{user?.fullName || "Guest User"}</p>
                 <p className="text-xs leading-none text-muted-foreground">
-                  john@example.com
+                  {user?.primaryEmailAddress?.emailAddress || "Guest"}
                 </p>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer">Profile</DropdownMenuItem>
+            <Link href="/profile">
+              <DropdownMenuItem className="cursor-pointer">Profile</DropdownMenuItem>
+            </Link>
             <DropdownMenuItem className="cursor-pointer">Settings</DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer">Billing</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-red-600 cursor-pointer focus:bg-red-50 focus:text-red-600 dark:focus:bg-red-950">
-              Log out
-            </DropdownMenuItem>
+            <SignOutButton>
+              <DropdownMenuItem className="text-red-600 cursor-pointer focus:bg-red-50 focus:text-red-600 dark:focus:bg-red-950">
+                Log out
+              </DropdownMenuItem>
+            </SignOutButton>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
