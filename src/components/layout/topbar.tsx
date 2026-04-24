@@ -31,7 +31,7 @@ export function Topbar() {
         </Button>
         
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger>
             <Button variant="ghost" className="relative h-10 w-10 rounded-full">
               <Avatar className="h-10 w-10 border-2 border-white shadow-sm">
                 <AvatarImage src="" alt="User" />
@@ -41,7 +41,7 @@ export function Topbar() {
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56 rounded-xl" align="end" forceMount>
+          <DropdownMenuContent className="w-56 rounded-xl" align="end">
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
                 <p className="text-sm font-medium leading-none">John Doe</p>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import { Sidebar } from "@/components/layout/sidebar";
 import { Topbar } from "@/components/layout/topbar";
@@ -17,18 +18,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <div className="flex min-h-screen">
-          <Sidebar />
-          <div className="flex-1 ml-64">
-            <Topbar />
-            <main className="mt-16 p-8 min-h-[calc(100vh-64px)] bg-[#f8fafc]">
-              {children}
-            </main>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={inter.className}>
+          <div className="flex min-h-screen">
+            <Sidebar />
+            <div className="flex-1 ml-64">
+              <Topbar />
+              <main className="mt-16 p-8 min-h-[calc(100vh-64px)] bg-[#f8fafc]">
+                {children}
+              </main>
+            </div>
           </div>
-        </div>
-      </body>
-    </html>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
