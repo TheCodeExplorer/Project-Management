@@ -31,15 +31,15 @@ export function Topbar() {
         </Button>
         
         <DropdownMenu>
-          <DropdownMenuTrigger>
-            <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+          <DropdownMenuTrigger className="flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors">
+            <div className="relative h-10 w-10 rounded-full flex items-center justify-center">
               <Avatar className="h-10 w-10 border-2 border-white shadow-sm">
                 <AvatarImage src="" alt="User" />
                 <AvatarFallback className="bg-gradient-to-br from-indigo-500 to-blue-500 text-white">
                   JD
                 </AvatarFallback>
               </Avatar>
-            </Button>
+            </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56 rounded-xl" align="end">
             <DropdownMenuLabel className="font-normal">
